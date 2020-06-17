@@ -6,6 +6,8 @@ namespace ShowMeTheXAML
     {
         private static readonly Dictionary<string, string> XamlByKey = new Dictionary<string, string>();
 
+        public static IReadOnlyDictionary<string, string> DebugView => XamlByKey;
+
         public static void Set(string key, string xaml)
         {
             XamlByKey[key] = xaml;
