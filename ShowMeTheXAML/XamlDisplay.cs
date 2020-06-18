@@ -1,25 +1,38 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Windows;
-using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Linq;
 
+#if __UNO__
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+#else
+using System.Windows;
+using System.Windows.Controls;
+#endif
+
 namespace ShowMeTheXAML
 {
-    public class XamlDisplay : ContentControl
+    public partial class XamlDisplay : ContentControl
     {
+#if __UNO__
+        public static XName XmlName => XName.Get(nameof(XamlDisplay), $"using:{nameof(ShowMeTheXAML)}");
+#else
         private static readonly string AssemblyName = typeof(XamlDisplay).Assembly.GetName().Name;
         public static XName XmlName => XName.Get(nameof(XamlDisplay), $"clr-namespace:{nameof(ShowMeTheXAML)};assembly={AssemblyName}");
+#endif
 
         static XamlDisplay()
         {
+#if !__UNO__
             DefaultStyleKeyProperty.OverrideMetadata(typeof(XamlDisplay), new FrameworkPropertyMetadata(typeof(XamlDisplay)));
+#endif
         }
 
+        internal const string IgnorePropertyName = "Ignore";
         public static readonly DependencyProperty IgnoreProperty = DependencyProperty.RegisterAttached(
-            "Ignore", typeof(Scope), typeof(XamlDisplay), new PropertyMetadata(default(Scope)));
+            IgnorePropertyName, typeof(Scope), typeof(XamlDisplay), new PropertyMetadata(default(Scope)));
 
         public static void SetIgnore(DependencyObject element, Scope value)
         {
@@ -40,7 +53,12 @@ namespace ShowMeTheXAML
                     LoadFromAssembly(assembly);
                 }
             }
+
+#if __ANDROID__ || __WASM__
+            LoadFromAssembly(Assembly.GetCallingAssembly());
+#else
             LoadFromAssembly(Assembly.GetEntryAssembly());
+#endif
 
             void LoadFromAssembly(Assembly assembly)
             {
@@ -53,15 +71,27 @@ namespace ShowMeTheXAML
             }
         }
 
-        public string Key
+        #region Property: UniqueKey
+        public static readonly DependencyProperty UniqueKeyProperty = DependencyProperty.Register(
+            nameof(UniqueKey),
+            typeof(string),
+            typeof(XamlDisplay),
+            new PropertyMetadata(default(string), OnUniqueKeyChanged));
+
+        public string UniqueKey
         {
-            get => _key;
-            set
+            get => (string)GetValue(UniqueKeyProperty);
+            set => SetValue(UniqueKeyProperty, value);
+        }
+
+        private static void OnUniqueKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is XamlDisplay xamlDisplay)
             {
-                _key = value;
-                ReloadXaml();
+                xamlDisplay.ReloadXaml();
             }
         }
+        #endregion
 
         public static readonly DependencyProperty XamlProperty = DependencyProperty.Register(
             nameof(Xaml), typeof(string), typeof(XamlDisplay), new PropertyMetadata(default(string), OnXamlChanged));
@@ -104,7 +134,7 @@ namespace ShowMeTheXAML
         private void ReloadXaml()
         {
             if (_isLoading) return;
-            string key = Key;
+            string key = UniqueKey;
             string xaml = XamlResolver.Resolve(key);
             IXamlFormatter formatter = Formatter;
             if (formatter != null)
@@ -112,7 +142,11 @@ namespace ShowMeTheXAML
                 xaml = formatter.FormatXaml(xaml);
             }
             _isLoading = true;
+#if __UNO__
+            Xaml = xaml;
+#else
             SetCurrentValue(XamlProperty, xaml);
+#endif
             _isLoading = false;
         }
     }

@@ -12,7 +12,7 @@ namespace ShowMeTheXAML
     {
         //TODO Fully qualify XName
         private static readonly string IgnoredPropertyLocalName =
-            $"{nameof(XamlDisplay)}.{XamlDisplay.IgnoreProperty.Name}";
+            $"{nameof(XamlDisplay)}.{XamlDisplay.IgnorePropertyName}";
 
         public string Indent { get; set; } = "    ";
         public bool NewLineOnAttributes { get; set; }
