@@ -1,28 +1,40 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;monoandroid90;monoandroid10.0;uap10.0.17763</TargetFrameworks>
-    <PackageId>Uno.ShowMeTheXAML.MSBuild</PackageId>
-    <OutputType>Library</OutputType>
-    <IsTool>True</IsTool>
-    <IncludeBuildOutput>True</IncludeBuildOutput>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;xamarinios10;monoandroid90;monoandroid10.0;uap10.0.17763</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<IsTool>True</IsTool>
+		<IncludeBuildOutput>True</IncludeBuildOutput>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <DefineConstants>$(DefineConstants);__UNO__</DefineConstants>
-  </PropertyGroup>
+	<!-- NuGet package metadata -->
+	<PropertyGroup>
+		<Title>Uno.ShowMeTheXAML.MSBuild</Title>
+		<Authors>nventive</Authors>
+		<Owners>nventive</Owners>
+		<Copyright>Copyright 2020</Copyright>
+		<Description>ShowMeTheXAML library for providing a simple way to display a control and its corresponding XAML.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/unoplatform/ShowMeTheXAML</PackageProjectUrl>
+		<PackageId>Uno.ShowMeTheXAML.MSBuild</PackageId>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);__UNO__</DefineConstants>
+	</PropertyGroup>
 
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.3.0" PrivateAssets="All" />
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.Xml" />
+		<Reference Include="System.Xml.Linq" />
 
-  <ItemGroup>
-    <_AllTargetFrameworks Include="$(TargetFrameworks)" />
+		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.3.0" PrivateAssets="All" />
+	</ItemGroup>
 
-    <None Include="Uno.ShowMeTheXAML.MSBuild.targets" Pack="True" PackagePath="@(_AllTargetFrameworks->'build/%(Identity)/$(PackageId).targets')" />
-  </ItemGroup>
+	<ItemGroup>
+		<_AllTargetFrameworks Include="$(TargetFrameworks)" />
+
+		<None Include="Uno.ShowMeTheXAML.MSBuild.targets" Pack="True" PackagePath="@(_AllTargetFrameworks->'build/%(Identity)/$(PackageId).targets')" />
+	</ItemGroup>
 
 </Project>
