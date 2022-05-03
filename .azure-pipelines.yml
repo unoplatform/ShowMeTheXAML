@@ -33,18 +33,12 @@ steps:
   inputs:
     versionSpec: 5.0.2
 
-- task: NuGetCommand@2
-  inputs:
-    command: restore
-    restoreSolution: Uno.ShowMeTheXAML.sln
-    includeNuGetOrg: true
-
 - task: MSBuild@1
   inputs:
     solution: Uno.ShowMeTheXAML.sln
     configuration: Release
     platform: 'Any CPU'
-    msbuildArguments: /p:PackageVersion=$(GitVersion.NuGetVersion)
+    msbuildArguments: /r /p:PackageVersion=$(GitVersion.NuGetVersion)
 
 - task: PublishBuildArtifacts@1
   inputs:
