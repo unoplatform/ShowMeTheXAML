@@ -14,11 +14,10 @@ variables:
   value: true
 
 steps:
+- powershell: ./build/ci/Install-WindowsSdkISO.ps1 17763
+  displayName: Install Windows SDK 17763
 - template: build/ci/templates/dotnet-install-windows.yml
 - template: build/ci/templates/jdk-setup.yml
-
-- powershell: .\build\Install-WindowsSdkISO.ps1 17763
-  displayName: Install Windows SDK 17763
     
 - task: GitVersion@5
   inputs:
