@@ -1,4 +1,5 @@
-pool: 'Hosted Windows 2019 with VS2019'
+pool:
+  vmImage: 'windows-2022'
 
 trigger:
   batch: 'true'
@@ -13,27 +14,31 @@ variables:
   value: true
 
 steps:
-- task: GitVersion@5
+- powershell: ./build/ci/Install-WindowsSdkISO.ps1 17763
+  displayName: Install Windows SDK 17763
+- template: build/ci/templates/dotnet-install-windows.yml
+- template: build/ci/templates/jdk-setup.yml
+    
+- task: gitversion/setup@0
   inputs:
-    runtime: 'core'
-    configFilePath: 'gitversion.yml'
+    versionSpec: '5.6.8'
+
+- task: gitversion/execute@0
+  inputs:
+    useConfigFile: true
+    configFilePath: gitversion.yml
+  displayName: Use GitVersion
 
 - task: NuGetToolInstaller@1
   inputs:
     versionSpec: 5.0.2
-
-- task: NuGetCommand@2
-  inputs:
-    command: restore
-    restoreSolution: Uno.ShowMeTheXAML.sln
-    includeNuGetOrg: true
 
 - task: MSBuild@1
   inputs:
     solution: Uno.ShowMeTheXAML.sln
     configuration: Release
     platform: 'Any CPU'
-    msbuildArguments: /p:PackageVersion=$(GitVersion.NuGetVersion)
+    msbuildArguments: /r /p:PackageVersion=$(GitVersion.NuGetVersion)
 
 - task: PublishBuildArtifacts@1
   inputs:
