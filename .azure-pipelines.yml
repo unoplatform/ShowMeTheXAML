@@ -1,4 +1,5 @@
-pool: 'Hosted Windows 2019 with VS2019'
+pool:
+  vmImage: 'windows-2022'
 
 trigger:
   batch: 'true'
@@ -13,6 +14,12 @@ variables:
   value: true
 
 steps:
+- template: build/ci/dotnet-install-windows.yml
+- template: build/ci/jdk-setup.yml
+
+- powershell: .\build\Install-WindowsSdkISO.ps1 17763
+  displayName: Install Windows SDK 17763
+    
 - task: GitVersion@5
   inputs:
     runtime: 'core'
