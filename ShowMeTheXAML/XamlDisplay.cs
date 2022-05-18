@@ -74,7 +74,7 @@ namespace ShowMeTheXAML
                 if (xamlDictionary != null)
                 {
                     //Invoke the static constructor
-                    xamlDictionary.TypeInitializer.Invoke(null, null);
+                    global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(xamlDictionary.TypeHandle);
                 }
             }
         }
