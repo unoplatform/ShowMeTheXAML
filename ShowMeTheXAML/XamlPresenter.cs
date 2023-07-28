@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 #if __UNO__
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 #else
 using System.Windows;
 using System.Windows.Controls;
