@@ -58,7 +58,7 @@ steps:
 - task: PowerShell@2
   displayName: Authenticode Sign Packages
   inputs:
-    filePath: build/Sign-Package.ps1
+    filePath: build/ci/sign-package.ps1
   env:
     SignClientUser: $(SignClientUser)
     SignClientSecret: $(SignClientSecret)
