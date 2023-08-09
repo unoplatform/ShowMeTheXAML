@@ -18,7 +18,7 @@
 	</PropertyGroup>
 	<ItemGroup Condition="!$(TargetFramework.Contains('-windows'))">
 		<Reference Include="System.Xml.Linq" />
-		<PackageReference Include="Uno.WinUI" Version="5.0.0-dev.1695" />
+		<PackageReference Include="Uno.WinUI" Version="4.10.0-dev.556" />
 	</ItemGroup>
 
 
