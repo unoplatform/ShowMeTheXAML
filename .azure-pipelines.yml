@@ -15,9 +15,14 @@ variables:
 - group: uno-codesign-vault
 
 steps:
+- task: UseDotNet@2
+  displayName: 'Use .Net Core runtime 5.0.3'
+  inputs:
+    packageType: runtime
+    version: 5.0.3
+
 - template: build/ci/templates/dotnet-install-windows.yml
 - template: build/ci/templates/jdk-setup.yml
-
 
 - task: gitversion/setup@0
   inputs:
