@@ -1,10 +1,10 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<!-- <Import Project="..\Build.targets" /> -->
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks>net9.0;net9.0-ios;net9.0-macos;net9.0-android;net9.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<OutputType>library</OutputType>
 		<RootNamespace>ShowMeTheXAML</RootNamespace>
 		<AssemblyName>Uno.ShowMeTheXAML</AssemblyName>
@@ -17,14 +17,13 @@
 		<DefineConstants>$(DefineConstants);__UNO__</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup Condition="!$(TargetFramework.Contains('-windows'))">
-		<Reference Include="System.Xml.Linq" />
-		<PackageReference Include="Uno.WinUI" Version="4.9.45" />
+		<PackageReference Include="Uno.WinUI" Version="6.4.242" />
 	</ItemGroup>
 
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260101001" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1-RTM" />
 	</ItemGroup>
 
 	<ItemGroup>
