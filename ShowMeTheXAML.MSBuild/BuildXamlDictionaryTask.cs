@@ -203,11 +203,16 @@ using System.Collections.Generic;
 
 namespace ShowMeTheXAML
 {{
-    public static class XamlDictionary
+    public static partial class XamlDictionary
     {{
         static XamlDictionary()
         {{
             {string.Join(Environment.NewLine, pairs.Select(p => $"XamlResolver.Set(\"{p.Key}\", @\"{p.Data}\");"))}
+        }}
+
+        public static void Init()
+        {{
+            // Do nothing; exists to allow explicit invocation of the static constructor
         }}
     }}
 }}");

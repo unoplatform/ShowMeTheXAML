@@ -13,10 +13,23 @@ A WPF component making it easy to show the corresponding XAML for WPF custom sty
 ```C#
 protected override void OnStartup(StartupEventArgs e)
 {
-    XamlDisplay.Init();
+    XamlDisplay.Init(
+        // optional list of assemblies to look for ShowMeTheXAML data from.
+        // Automatically tries to load data from Assembly.GetEntryAssembly()
+    );
     base.OnStartup(e);
 }
 ```
+`XamlDisplay.Init()` does not work under Native AOT. For Native AOT support, invoke `XamlDictionary.Init()` from your `App.xaml.cs`:
+```C#
+protected override void OnStartup(StartupEventArgs e)
+{
+    XamlDictionary.Init();
+    base.OnStartup(e);
+}
+```
+*Note*: the difference between `XamlDisplay.Init()` and `XamlDictionary.Init()` is that `XamlDictionary.Init()` will look for `XamlDictionary` from `Assembly.GetEntryAssembly()` and from the list of `Assembly` instances provided to `XamlDisplay.Init()`. `XamlDictionary.Init()` does *not*.  As such, if multiple assemblies contain `XamlDictionary` types, new public APIs will need to be added to each such assembly and explicitly invoked in order for the `XamlDictionary` data to be used.
+
 3. (Optional) The default template is pretty basic. For a better looking style add the ShowMeTheXAML.AvalonEdit package. `PM> Install-Package ShowMeTheXAML.AvalonEdit`
 In App.xaml include the resource dictionary.
 ```XAML
