@@ -18,17 +18,6 @@ steps:
 - template: build/ci/templates/dotnet-install-windows.yml
 - template: build/ci/templates/jdk-setup.yml
 
-- task: UseDotNet@2
-  displayName: 'Use .Net Core runtime 5.0.3'
-  inputs:
-    packageType: runtime
-    version: 5.0.3
-
-- task: UseDotNet@2
-  displayName: 'Use .Net Core runtime 3.1.0'
-  inputs:
-    packageType: runtime
-    version: 3.1.0
 
 - task: gitversion/setup@0
   inputs:
