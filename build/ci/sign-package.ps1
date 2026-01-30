@@ -15,7 +15,28 @@ $filesToSign = Get-ChildItem -Recurse $Env:ArtifactDirectory\* -Include *.nupkg,
 
 foreach ($fileToSign in $filesToSign) {
     Write-Host "Submitting $fileToSign for signing"
-    .\SignClient 'sign' -c $appSettings -i $fileToSign -r $env:SignClientUser -s $env:SignClientSecret -n "$env:SignPackageName" -d "$env:SignPackageDescription" -u "$env:build_repository_uri"
+
+    $signArguments = @(
+        'code', 'azure-key-vault',
+        $fileToSign,
+        '--publisher-name', $env:SignPackageName,
+        '--description', $env:SignPackageDescription,
+        '--description-url', $env:build_repository_uri,
+        '--azure-key-vault-tenant-id', $env:VaultSignTenantId,
+        '--azure-key-vault-client-id', $env:VaultSignClientId,
+        '--azure-key-vault-client-secret', $env:VaultSignClientSecret,
+        '--azure-key-vault-certificate', $env:VaultSignCertificate,
+        '--azure-key-vault-url', $env:VaultSignUrl,
+        '--verbosity', 'information'
+    )
+
+    .\sign @signArguments
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "Failed to sign $fileToSign"
+        exit $LASTEXITCODE
+    }
+
     Write-Host "Finished signing $fileToSign"
 }
 
