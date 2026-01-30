@@ -1,19 +1,17 @@
 $currentDirectory = split-path $MyInvocation.MyCommand.Definition
 
 # See if we have the ClientSecret available
-if ([string]::IsNullOrEmpty($env:SignClientSecret)) {
+if ([string]::IsNullOrEmpty($env:VaultSignClientSecret)) {
     Write-Host "Client Secret not found, not signing packages"
     return;
 }
 
-dotnet tool install --tool-path . SignClient
+dotnet tool install --tool-path . sign --version 0.9.1-beta.25278.1
 
-# Setup Variables we need to pass into the sign client tool
-$appSettings = "$currentDirectory\SignClient.json"
+$filesToSign = Get-ChildItem -Recurse $Env:ArtifactDirectory\* -Include *.nupkg,*.snupkg,*.vsix | Select-Object -ExpandProperty FullName
 
-$filesToSign = Get-ChildItem -Recurse $Env:ArtifactDirectory\* -Include *.nupkg,*.vsix | Select-Object -ExpandProperty FullName
-
-foreach ($fileToSign in $filesToSign) {
+foreach ($fileToSign in $filesToSign)
+{
     Write-Host "Submitting $fileToSign for signing"
 
     $signArguments = @(

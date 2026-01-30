@@ -12,7 +12,7 @@ variables:
   value: '$(Build.ArtifactStagingDirectory)'
 - name: GeneratePackageOnBuild
   value: true
-- group: 'Uno Platform authenticode signing'
+- group: uno-codesign-vault
 
 steps:
 - template: build/ci/templates/dotnet-install-windows.yml
@@ -60,12 +60,15 @@ steps:
   inputs:
     filePath: build/ci/sign-package.ps1
   env:
-    SignClientUser: $(SignClientUser)
-    SignClientSecret: $(SignClientSecret)
     SignPackageName: "Uno.ShowMeTheXaml"
     SignPackageDescription: "Uno.ShowMeTheXaml"
     ArtifactDirectory: $(build.artifactstagingdirectory)
-  condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
+    VaultSignTenantId: $(VaultSignTenantId)
+    VaultSignClientId: $(VaultSignClientId)
+    VaultSignClientSecret: $(VaultSignClientSecret)
+    VaultSignCertificate: $(VaultSignCertificate)
+    VaultSignUrl: $(VaultSignUrl)
+  condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['VaultSignClientSecret'], '')))
 
 - task: PublishBuildArtifacts@1
   inputs:
