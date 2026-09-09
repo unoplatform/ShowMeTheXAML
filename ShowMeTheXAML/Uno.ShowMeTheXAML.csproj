@@ -3,8 +3,9 @@
 	<!-- <Import Project="..\Build.targets" /> -->
 
 	<PropertyGroup>
-		<TargetFrameworks>net9.0;net9.0-ios;net9.0-macos;net9.0-android;net9.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uno 7.0 ships no macOS or MacCatalyst target, so those frameworks are dropped. -->
+		<TargetFrameworks>net10.0;net10.0-ios;net10.0-android</TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
 		<OutputType>library</OutputType>
 		<RootNamespace>ShowMeTheXAML</RootNamespace>
 		<AssemblyName>Uno.ShowMeTheXAML</AssemblyName>
@@ -17,13 +18,13 @@
 		<DefineConstants>$(DefineConstants);__UNO__</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup Condition="!$(TargetFramework.Contains('-windows'))">
-		<PackageReference Include="Uno.WinUI" Version="6.4.242" />
+		<PackageReference Include="Uno.WinUI" Version="7.0.0-dev.684" />
 	</ItemGroup>
 
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260101001" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1-RTM" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
 	</ItemGroup>
 
 	<ItemGroup>
