@@ -18,7 +18,7 @@
 		<DefineConstants>$(DefineConstants);__UNO__</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup Condition="!$(TargetFramework.Contains('-windows'))">
-		<PackageReference Include="Uno.WinUI" Version="7.0.0-dev.684" />
+		<PackageReference Include="Uno.WinUI" Version="7.0.0-dev.1542" />
 	</ItemGroup>
 
 
