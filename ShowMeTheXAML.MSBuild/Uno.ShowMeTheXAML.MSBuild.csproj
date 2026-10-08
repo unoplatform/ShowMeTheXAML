@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0</TargetFrameworks>
@@ -6,6 +6,8 @@
 		<OutputType>Library</OutputType>
 		<IsTool>True</IsTool>
 		<IncludeBuildOutput>True</IncludeBuildOutput>
+		<!-- MSBuild task package: the task runs inside MSBuild, so it has no package dependencies. -->
+		<SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -13,8 +15,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Reference Include="System.Xml" />
-		<Reference Include="System.Xml.Linq" />
 		<None Include="Uno.ShowMeTheXAML.MSBuild.targets" Pack="True" PackagePath="build" />
 
 		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.3.0" PrivateAssets="All" />
