@@ -45,6 +45,13 @@ steps:
     platform: 'Any CPU'
     msbuildArguments: /r /p:PackageVersion=$(GitVersion.NuGetVersion)
 
+- task: DotNetCoreCLI@2
+  displayName: Run tests
+  inputs:
+    command: test
+    projects: ShowMeTheXAML.MSBuild.Tests/Uno.ShowMeTheXAML.MSBuild.Tests.csproj
+    arguments: -c Release --no-build
+
 - task: PowerShell@2
   displayName: Authenticode Sign Packages
   inputs:
