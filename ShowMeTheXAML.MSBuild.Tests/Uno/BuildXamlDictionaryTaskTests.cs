@@ -71,7 +71,7 @@ public class BuildXamlDictionaryTaskTests
 		var directory = Directory.CreateTempSubdirectory("smtx-").FullName;
 		try
 		{
-			var pagePath = Path.Combine(directory, "Page.xaml");
+			var pagePath = Path.Join(directory, "Page.xaml");
 			File.WriteAllText(pagePath, ExtrasPage);
 
 			BuildXamlDictionaryTask task = new()
